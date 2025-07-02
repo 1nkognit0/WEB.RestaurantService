@@ -1,0 +1,36 @@
+# Byte-code files
+*.pyc
+__pycache__/
+
+# Virtual environment
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Database
+db.sqlite3
+
+# Media and static files (if collected during deployment, not tracked)
+media/
+GENERAL-templates/
+
+# IDE-specific files (e.g., VS Code, PyCharm)
+.vscode/
+.idea/
+
+# Editor swap files
+*.swp
+*~
+
+# Log files
+*.log
+
+# Sensitive information (e.g., local settings not committed to version control)
+local_settings.py
+
+# Django specific
+*.pot

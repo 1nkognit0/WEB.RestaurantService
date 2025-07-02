@@ -1,0 +1,48 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Создание заказа</title>
+    <link rel="stylesheet" href="{% static 'css/waiter.css' %}">
+</head>
+<body>
+    <div class="header">
+        <h1>Создание заказа</h1>
+        <img src="{% static 'icons/waiter.webp' %}" height="80" alt="waiter-icon">
+        <button>Выйти</button>
+    </div>
+    <div class="container">
+        <div class="order-card">
+            <h1>Создание нового заказа</h1>
+            
+                <div class="form-group">
+                    <label for="table-number">Номер столика</label>
+                    <input type="number" id="table-number" min="1" value="1" required>
+                </div>
+            
+            <div class="flex-group">
+                <div class="form-group">
+                    <label for="items-count">Количество позиций</label>
+                    <input type="number" id="items-count" min="1" value="1" required>
+                </div>
+                <button id="add-items-btn" class="btn">Добавить позиции</button>
+            </div>
+            
+            <div id="items-container" class="hidden">
+                <h3>Позиции заказа</h3>
+
+                <div id="items-fields"></div>
+                
+                <div class="submit-section">
+                    <button id="submit-order" class="btn">Отправить заказ</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{% static 'js/waiter.js' %}"></script>
+</body>
+</html>
