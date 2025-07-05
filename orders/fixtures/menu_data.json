@@ -1,0 +1,72 @@
+[
+  {
+    "model": "orders.menu",
+    "fields": {
+      "name": "Пицца Маргарита",
+      "price": "450.00"
+    }
+  },
+  {
+    "model": "orders.menu",
+    "fields": {
+      "name": "Спагетти Карбонара",
+      "price": "320.50"
+    }
+  },
+  {
+    "model": "orders.menu",
+    "fields": {
+      "name": "Салат Цезарь",
+      "price": "280.00"
+    }
+  },
+  {
+    "model": "orders.menu",
+    "fields": {
+      "name": "Борщ",
+      "price": "150.00"
+    }
+  },
+  {
+    "model": "orders.menu",
+    "fields": {
+      "name": "Стейк Рибай",
+      "price": "890.00"
+    }
+  },
+  {
+    "model": "orders.menu",
+    "fields": {
+      "name": "Ролл Калифорния",
+      "price": "220.00"
+    }
+  },
+  {
+    "model": "orders.menu",
+    "fields": {
+      "name": "Крем-суп грибной",
+      "price": "180.00"
+    }
+  },
+  {
+    "model": "orders.menu",
+    "fields": {
+      "name": "Шашлык из свинины",
+      "price": "350.00"
+    }
+  },
+  {
+    "model": "orders.menu",
+    "fields": {
+      "name": "Десерт Тирамису",
+      "price": "250.00"
+    }
+  },
+  {
+    "model": "orders.menu",
+    "fields": {
+      "name": "Морс клюквенный",
+      "price": "90.00"
+    }
+  }
+]

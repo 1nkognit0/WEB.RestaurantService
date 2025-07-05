@@ -34,7 +34,23 @@
             <div id="items-container" class="hidden">
                 <h3>Позиции заказа</h3>
 
-                <div id="items-fields"></div>
+                <div id="items-fields">
+
+                    <template id="item-row-template">
+                        <div class="item-row">
+                            <select required>
+                                <option value="">Выберите блюдо</option>
+                                {% for item in menu %}
+                                    <option value="{{ item.id }}">
+                                        {{ item.name }} ({{ item.price }} руб.)
+                                    </option>
+                                {% endfor %}
+                            </select>
+                            <input type="number" min="1" value="1" required>
+                        </div>
+                    </template>
+
+                </div>
                 
                 <div class="submit-section">
                     <button id="submit-order" class="btn">Отправить заказ</button>

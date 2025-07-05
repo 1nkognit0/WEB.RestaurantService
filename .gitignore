@@ -14,6 +14,9 @@ venv.bak/
 # Database
 db.sqlite3
 
+#Docker
+Dockerfile
+
 # Media and static files (if collected during deployment, not tracked)
 media/
 GENERAL-templates/
