@@ -13,15 +13,27 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 from pathlib import Path
 import os
 
+import environ
+
+env = environ.Env(
+    SECRET_KEY=(str),
+    POSTGRES_HOST=(str, 'localhost'),
+    POSTGRES_DB=(str),
+    POSTGRES_USER=(str),
+    POSTGRES_PASSWORD=(str),
+    POSTGRES_PORT=(str),
+)
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+env.read_env(BASE_DIR / '.env')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-a&m2(ijr=04unow#3=na))4l$77*i32mof5pc+&(mko7@ft373'
+SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -78,11 +90,11 @@ WSGI_APPLICATION = 'cafeSaas.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'rsaasdb',
-        'USER': 'rsaas',
-        'PASSWORD': 'cfvceyu',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'NAME': env('POSTGRES_DB'),
+        'USER': env('POSTGRES_USER'),
+        'PASSWORD': env('POSTGRES_PASSWORD'),
+        'HOST': env('POSTGRES_HOST'),
+        'PORT': env('POSTGRES_PORT'),
     }
 }
 

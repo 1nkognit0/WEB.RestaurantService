@@ -1,0 +1,32 @@
+services:
+  web:
+    image: cafesaas:latest
+    container_name: rsaas_django
+    command: >
+      sh -c "python manage.py migrate &&
+             python manage.py loaddata orders/fixtures/menu_data.json &&
+             python manage.py runserver 0.0.0.0:8000"
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      SECRET_KEY: ${SECRET_KEY}
+      POSTGRES_HOST: db
+
+  db:
+    image: postgres:17
+    container_name: rsaas_postgres
+    env_file:
+      - .env
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
