@@ -1,0 +1,32 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Панель повара</title>
+    <link rel="stylesheet" href="{% static 'css/chef.css' %}">
+</head>
+<body>
+    <div class="header">
+        <h2>Повар</h2>
+        <img src="{% static 'icons/chef.webp' %}" height="80" alt="chef-icon">
+        <button>Выйти</button>
+    </div>
+
+    <div class="orders">
+        <div class="order-card">
+            <h3>Заказ #123</h3>
+            <p>Столик: 5</p>
+            <p>Официант: Иван</p>
+            <ul>
+                <li>Стейк Рибай (2 шт.)</li>
+                <li>Салат Цезарь (1 шт.)</li>
+            </ul>
+            <button class="complete-btn">Готово</button>
+        </div>
+    </div>
+    <script src="{% static 'js/chef.js' %}"></script>
+</body>
+</html>
