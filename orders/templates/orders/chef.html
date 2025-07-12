@@ -16,17 +16,29 @@
     </div>
 
     <div class="orders">
+        {% for order in orders %}
+
         <div class="order-card">
-            <h3>Заказ #123</h3>
-            <p>Столик: 5</p>
-            <p>Официант: Иван</p>
+            <h3>Заказ #{{ order.id }}</h3>
+            <p>Столик: {{ order.table_number }}</p>
             <ul>
-                <li>Стейк Рибай (2 шт.)</li>
-                <li>Салат Цезарь (1 шт.)</li>
+                {% for position in order.order_positions %}
+                    <li>{{ position.name }} ({{ position.quantity }} шт.)</li>
+                {% endfor %}
             </ul>
-            <button class="complete-btn">Готово</button>
         </div>
+
+        {% endfor %}
     </div>
+
+    <template id="order-template">
+        <div class="order-card">
+            <h3>Заказ #<span class="order-id"></span></h3>
+            <p>Столик: <span class="table-number"></span></p>
+            <ul class="items-list"></ul>
+        </div>
+    </template>
+
     <script src="{% static 'js/chef.js' %}"></script>
 </body>
 </html>
