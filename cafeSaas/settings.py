@@ -147,8 +147,19 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # WebSocket
 ASGI_APPLICATION = "cafeSaas.asgi.application"
 
+# WITHOUT BROKER:
+# CHANNEL_LAYERS = {
+#     "default": {
+#         "BACKEND": "channels.layers.InMemoryChannelLayer"
+#     }
+# }
+
+# Rabbitmq
 CHANNEL_LAYERS = {
     "default": {
-        "BACKEND": "channels.layers.InMemoryChannelLayer"
-    }
+        "BACKEND": "channels_rabbitmq.core.RabbitmqChannelLayer",
+        "CONFIG": {
+            "host": "amqp://guest:guest@localhost/",
+        },
+    },
 }
