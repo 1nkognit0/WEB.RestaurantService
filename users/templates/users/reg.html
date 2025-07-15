@@ -1,0 +1,32 @@
+{% extends 'users/base_auth.html' %}
+
+{% block content %}
+    <h2 style="text-align: center;">Регистрация</h2>
+
+        {% if form.errors %}
+                {{ form.errors }}
+        {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label>Логин</label>
+            {{ form.username }}
+        </div>
+        <div class="form-group">
+            <label>Выберите роль</label>
+            {{ form.role }}
+        </div>
+        <div class="form-group">
+            <label>Пароль</label>
+            {{ form.password1 }}
+        </div>
+        <div class="form-group">
+            <label>Подтвердите пароль</label>
+            {{ form.password2 }}
+        </div>
+        <button type="submit" class="login-btn">Зарегистрироваться</button>
+        <p><a href="{% url 'login' %}">Авторизация</a></p>
+    </form>
+
+{% endblock %}

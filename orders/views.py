@@ -1,11 +1,26 @@
 from django.shortcuts import render, redirect
-from channels.layers import get_channel_layer
+from django.http import HttpResponseForbidden
+from django.contrib.auth.decorators import login_required
 
 from asgiref.sync import async_to_sync
+from channels.layers import get_channel_layer
+import functools
 
 from orders.models import Menu, OrderItem, Order
 from orders.forms import OrderForm
 
+def role_required(allowed_role):
+    def decorator(view_func):
+        @functools.wraps(view_func)
+        def wrapper(request, *args, **kwargs):
+            if request.user.role != allowed_role:
+                return HttpResponseForbidden("Доступ запрещён для вашей роли!")
+            return view_func(request, *args, **kwargs)
+        return wrapper
+    return decorator
+
+@login_required
+@role_required('waiter')
 def create_order(request):
     if request.method == 'POST':
         order_form = OrderForm(request.POST)
@@ -48,6 +63,8 @@ def create_order(request):
         'menu': menu,
     })
 
+@login_required
+@role_required('chef')
 def view_orders(request):
     orders = Order.objects.all().prefetch_related('orderitem_set__dish_id')
     data = [{'id': order.id,

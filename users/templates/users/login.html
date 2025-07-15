@@ -1,0 +1,28 @@
+{% extends 'users/base_auth.html' %}
+
+{% block content %}
+    <h2 style="text-align: center;">Вход</h2>
+
+    {% if form.non_field_errors %}
+        <div>
+            {% for error in form.non_field_errors %}
+                {{ error }}
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label>Логин</label>
+            {{ form.username }}
+        </div>
+        <div class="form-group">
+            <label>Пароль</label>
+            {{ form.password }}
+        </div>
+        <button type="submit" class="login-btn">Войти</button>
+        <p><a href="{% url 'registration' %}">Нужен аккаунт? Зарегистрируйся!</a></p>
+    </form>
+
+{% endblock %}

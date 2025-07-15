@@ -12,7 +12,10 @@
     <div class="header">
         <h1>Создание заказа</h1>
         <img src="{% static 'icons/waiter.webp' %}" height="80" alt="waiter-icon">
-        <button>Выйти</button>
+                <form method="post" action="{% url 'logout' %}">
+          {% csrf_token %}
+          <button style="height: 100%">Выйти</button>
+        </form>
     </div>
     <form class="container" method="post">
 

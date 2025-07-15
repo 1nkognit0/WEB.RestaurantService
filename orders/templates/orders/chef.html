@@ -12,7 +12,10 @@
     <div class="header">
         <h2>Повар</h2>
         <img src="{% static 'icons/chef.webp' %}" height="80" alt="chef-icon">
-        <button>Выйти</button>
+        <form method="post" action="{% url 'logout' %}">
+          {% csrf_token %}
+          <button style="height: 100%">Выйти</button>
+        </form>
     </div>
 
     <div class="orders">

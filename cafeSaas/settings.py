@@ -14,6 +14,7 @@ from pathlib import Path
 import os
 
 import environ
+from django.conf.global_settings import STATIC_ROOT
 
 env = environ.Env(
     SECRET_KEY=(str),
@@ -46,6 +47,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'daphne',
     'channels',
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -54,6 +56,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'orders',
+    'users',
+    'logs',
 ]
 
 MIDDLEWARE = [
@@ -163,3 +167,8 @@ CHANNEL_LAYERS = {
         },
     },
 }
+
+#User
+AUTH_USER_MODEL = 'users.User'
+LOGIN_URL = '/login/'
+LOGOUT_REDIRECT_URL = '/login/'
