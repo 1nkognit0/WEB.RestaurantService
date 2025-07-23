@@ -14,7 +14,7 @@ from pathlib import Path
 import os
 
 import environ
-from django.conf.global_settings import STATIC_ROOT
+import logging
 
 env = environ.Env(
     SECRET_KEY=(str),
@@ -70,7 +70,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'cafeSaas.urls'
+ROOT_URLCONF = 'cafesaas.urls'
 
 TEMPLATES = [
     {
@@ -87,7 +87,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'cafeSaas.wsgi.application'
+WSGI_APPLICATION = 'cafesaas.wsgi.application'
 
 
 # Database
@@ -149,7 +149,7 @@ STATICFILES_DIRS = [
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # WebSocket
-ASGI_APPLICATION = "cafeSaas.asgi.application"
+ASGI_APPLICATION = "cafesaas.asgi.application"
 
 # WITHOUT BROKER:
 # CHANNEL_LAYERS = {
@@ -163,7 +163,7 @@ CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_rabbitmq.core.RabbitmqChannelLayer",
         "CONFIG": {
-            "host": "amqp://guest:guest@localhost/",
+            "host": "amqp://guest:guest@rabbitmq/",
         },
     },
 }
@@ -172,3 +172,17 @@ CHANNEL_LAYERS = {
 AUTH_USER_MODEL = 'users.User'
 LOGIN_URL = '/login/'
 LOGOUT_REDIRECT_URL = '/login/'
+
+#loggin
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    handlers=[
+        logging.FileHandler('../app.log'),
+        logging.StreamHandler()
+    ]
+)
+
+# runserver commands
+# gunicorn cafesaas.wsgi:application --bind 127.0.0.1:8000 --workers 3
+# daphne -b 127.0.0.1 -p 8001 cafesaas.asgi:application

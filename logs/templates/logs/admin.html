@@ -1,15 +1,17 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Логи системы</title>
-    <link rel="stylesheet" href="../static/css/icons/admin.css">
+    <link rel="stylesheet" href="{% static 'css/admin.css' %}">
 </head>
 <body>
     <div class="header">
         <h1>Логи системы</h1>
-        <img src="../static/admin.webp" height="80" alt="admin-icon">
+        <img src="{% static 'icons/admin.webp' %}" height="80" alt="admin-icon">
         <form method="post" action="{% url 'logout' %}">
           {% csrf_token %}
           <button style="height: 100%">Выйти</button>
@@ -17,59 +19,17 @@
     </div>
 
     <div class="container">
-        <div class="filters">
-            <div class="filter-group">
-                <label for="date-from">Дата от</label>
-                <input type="date" id="date-from">
-            </div>
-            <div class="filter-group">
-                <label for="date-to">Дата до</label>
-                <input type="date" id="date-to">
-            </div>
-            <div class="filter-group">
-                <label for="user-type">Тип пользователя</label>
-                <select id="user-type">
-                    <option value="">Все</option>
-                    <option value="waiter">Официант</option>
-                    <option value="chef">Повар</option>
-                    <option value="admin">Администратор</option>
-                </select>
-            </div>
-            <button class="apply-btn">Применить</button>
-        </div>
 
         <table class="logs-table">
-            <thead>
-                <tr>
-                    <th>Дата и время</th>
-                    <th>Пользователь</th>
-                    <th>Действие</th>
-                    <th>Детали</th>
-                </tr>
-            </thead>
             <tbody>
+            {% for log in logs %}
                 <tr>
-                    <td>2023-05-15 14:30:22</td>
-                    <td>Иван Иванов (официант)</td>
-                    <td>Создан заказ</td>
-                    <td>Столик №5, 2 позиции</td>
+                    <td>{{ log }}</td>
                 </tr>
-                <tr>
-                    <td>2023-05-15 14:35:10</td>
-                    <td>Петр Петров (повар)</td>
-                    <td>Заказ выполнен</td>
-                    <td>Заказ #12345</td>
-                </tr>
+            {% endfor %}
             </tbody>
         </table>
 
-        <div class="pagination">
-            <button>«</button>
-            <button class="active">1</button>
-            <button>2</button>
-            <button>3</button>
-            <button>»</button>
-        </div>
     </div>
 </body>
 </html>

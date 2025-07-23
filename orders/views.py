@@ -5,9 +5,12 @@ from django.contrib.auth.decorators import login_required
 from asgiref.sync import async_to_sync
 from channels.layers import get_channel_layer
 import functools
+import logging
 
 from orders.models import Menu, OrderItem, Order
 from orders.forms import OrderForm
+
+logger = logging.getLogger(__name__)
 
 def role_required(allowed_role):
     def decorator(view_func):
@@ -39,20 +42,41 @@ def create_order(request):
                     'quantity': item.quantity
                 })
 
-            channel_layer = get_channel_layer()
-            async_to_sync(channel_layer.group_send)(
-                "orders",
-                {
-                    "type": "new_order",
-                    "data": {
-                        "order": {
-                            "id": order.id,
-                            "table_number": order.table_number,
-                            "items": order_items
+            try:
+                channel_layer = get_channel_layer()
+                async_to_sync(channel_layer.group_send)(
+                    "orders",
+                    {
+                        "type": "new_order",
+                        "data": {
+                            "order": {
+                                "id": order.id,
+                                "table_number": order.table_number,
+                                "items": order_items
+                            }
                         }
                     }
-                }
-            )
+                )
+            except RuntimeError as e:
+                logger.warning('Заказ создан, но подключения к websocket нету')
+
+            # @sync_to_async
+            # def send_order():
+            #     async_to_sync(channel_layer.group_send)(
+            #         "orders",
+            #         {
+            #             "type": "new_order",
+            #             "data": {
+            #                 "order": {
+            #                     "id": order.id,
+            #                     "table_number": order.table_number,
+            #                     "items": order_items
+            #                 }
+            #             }
+            #         }
+            #     )
+            #
+            # send_order()
 
             return redirect(request.META.get('HTTP_REFERER'))
     else:
@@ -66,6 +90,7 @@ def create_order(request):
 @login_required
 @role_required('chef')
 def view_orders(request):
+    logger.info('ЗАКАЗЫ!!')
     orders = Order.objects.all().prefetch_related('orderitem_set__dish_id')
     data = [{'id': order.id,
              'table_number': order.table_number,

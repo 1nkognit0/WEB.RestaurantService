@@ -1,16 +1,19 @@
 services:
   web:
-    image: cafesaas:latest
+    build: .
+    image: cafesaas
     container_name: rsaas_django
     command: >
-      sh -c "python manage.py migrate &&
-             python manage.py loaddata orders/fixtures/menu_data.json &&
-             python manage.py runserver 0.0.0.0:8000"
+      sh -c "python3 manage.py migrate &&
+             python3 manage.py loaddata orders/fixtures/menu_data.json &&
+             gunicorn cafesaas.wsgi:application --bind 0.0.0.0:8000 --workers 3"
     ports:
       - "8000:8000"
     depends_on:
       db:
         condition: service_healthy
+    volumes:
+      - static_volume:/app/static
     environment:
       SECRET_KEY: ${SECRET_KEY}
       POSTGRES_HOST: db
@@ -28,5 +31,36 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rsaas_rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
+  daphne:
+    image: cafesaas
+    container_name: rsaas_daphne
+    command: daphne -b 0.0.0.0 -p 8001 cafesaas.asgi:application
+    depends_on:
+      - rabbitmq
+    volumes:
+      - static_volume:/app/static
+    environment:
+      SECRET_KEY: ${SECRET_KEY}
+      POSTGRES_HOST: db
+
+  nginx:
+    build: ./docker/nginx
+    container_name: rsaas_nginx
+    ports:
+      - "80:80"
+    volumes:
+      - static_volume:/app/static
+    depends_on:
+      - web
+      - daphne
+
 volumes:
   postgres_data:
+  static_volume:

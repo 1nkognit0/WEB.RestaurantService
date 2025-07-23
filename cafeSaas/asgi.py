@@ -15,7 +15,7 @@ from django.urls import path
 
 from orders.consumers import OrderConsumer
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'cafeSaas.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'cafesaas.settings')
 
 application = ProtocolTypeRouter(
     {
